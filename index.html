@@ -68,7 +68,7 @@
 <style>
 :root{
   --bg:#f5f7fb;--surface:#fff;--surface-2:#f8f9fc;--text:#171a21;--text-2:#5d6472;
-  --text-3:#8a919f;--line:#e5e8ef;--line-strong:#d6dbe5;--accent:#5b5bd6;
+  --text-3:#646c7a;--line:#e5e8ef;--line-strong:#d6dbe5;--accent:#5b5bd6;
   --accent-dark:#4747b8;--accent-soft:#eeeeff;--success:#137a52;--shadow:0 14px 40px rgba(28,35,60,.09);
   --radius:16px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
 }
@@ -81,7 +81,7 @@ button,input,select{font:inherit}
 button,a{-webkit-tap-highlight-color:transparent}
 button{color:inherit}
 a{color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid rgba(91,91,214,.28);outline-offset:2px}
+:is(button,a,input,select,[tabindex]):focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 svg{display:block;flex:0 0 auto}
 .shell{width:min(1560px,calc(100% - 64px));margin-inline:auto}
 .site-header{position:relative;overflow:hidden;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -114,15 +114,15 @@ svg{display:block;flex:0 0 auto}
 .line-tabs::-webkit-scrollbar{display:none}
 .line-tab{flex:0 0 auto;min-height:48px;padding:7px 17px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface);cursor:pointer;text-align:left;transition:border-color .16s,background .16s,color .16s}
 .line-tab:hover{border-color:#b9bfe0}
-.line-tab[aria-selected="true"]{background:var(--text);border-color:var(--text);color:#fff}
+.line-tab[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:#fff}
 .tab-name{display:block;font-size:13px;font-weight:700;white-space:nowrap}
 .tab-count{display:block;margin-top:1px;font-size:10px;color:var(--text-3);white-space:nowrap;font-variant-numeric:tabular-nums}
-.line-tab[aria-selected="true"] .tab-count{color:#b9bdc9}
+.line-tab[aria-pressed="true"] .tab-count{color:#b9bdc9}
 .search-row{display:flex;gap:10px;margin-top:10px}
 .search-box{position:relative;flex:1;display:flex;align-items:center}
 .search-box>svg{position:absolute;left:15px;color:var(--text-3);pointer-events:none}
 .search-box input{width:100%;height:46px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface);padding:0 76px 0 43px;color:var(--text);font-size:14px;outline:none;transition:border-color .16s,box-shadow .16s}
-.search-box input::placeholder{color:#9ba2af}
+.search-box input::placeholder{color:var(--text-3);opacity:1}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,91,214,.10)}
 .search-clear{position:absolute;right:42px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface-2);color:var(--text-2);cursor:pointer;display:grid;place-items:center}
 .search-clear:hover{background:var(--line)}
@@ -130,7 +130,7 @@ svg{display:block;flex:0 0 auto}
 .filter-toggle{display:none;height:46px;padding:0 15px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface);align-items:center;gap:7px;font-weight:700;cursor:pointer}
 .filter-badge{min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--accent);color:#fff;font-size:11px;display:grid;place-items:center}
 .filter-badge:empty{display:none}
-.filter-panel{display:grid;grid-template-columns:minmax(180px,.9fr) minmax(390px,1.8fr) minmax(220px,1fr) auto;gap:14px;align-items:end;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.filter-panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.8fr) minmax(0,1fr) auto;gap:14px;align-items:end;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .filter-field{min-width:0}
 .filter-label{display:block;margin:0 0 6px 2px;color:var(--text-2);font-size:11px;font-weight:700}
 .select-wrap{position:relative}
@@ -350,6 +350,21 @@ main{padding:22px 0 54px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
+/* Mobile targets remain separate instead of shrinking five angles into one row. */
+.filter-chip{max-width:100%;height:auto;min-height:32px;overflow-wrap:anywhere;text-align:left}
+.copy-btn,.info-close,.viewer-close,.viewer-nav{min-width:44px;min-height:44px}
+.viewer-heading h2{overflow-wrap:anywhere}
+.pose-card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(max-width:680px){
+  .action-btn{width:44px;height:44px;flex-shrink:0}.top-actions{gap:4px}.brand{min-width:0}.brand-copy span{letter-spacing:.08em}
+  .search-box{min-width:0}.search-box input{font-size:16px;padding-right:48px}.search-clear{right:0;width:44px;height:44px}
+  .segmented button,.reset-btn,.filter-chip,.empty button,.footer-links a{min-width:44px;min-height:44px}
+  .angle-strip{grid-template-columns:repeat(3,minmax(44px,1fr));gap:4px}.angle-thumb{min-width:44px;min-height:44px}
+  .card-body h3{font-size:14px;min-height:42px}.hero-desc{font-size:14px}.stat span,.tab-count,.card-meta,.viewer-position{font-size:12px}
+  .viewer-close{width:44px;height:44px}.viewer-nav{width:44px}.viewer-angles .angle-thumb span{font-size:11px}
+  .controls:has(.filter-panel.open){position:relative}
+}
+@media(max-height:500px){.controls{position:relative}.viewer{padding:8px}.viewer-panel{height:calc(100dvh - 16px)}}
 </style>
 </head>
 <body>
@@ -382,7 +397,7 @@ main{padding:22px 0 54px}
 
 <section class="controls" aria-label="图库筛选">
   <div class="shell controls-inner">
-    <div class="line-tabs" id="lineTabs" role="tablist" aria-label="体系分类"></div>
+    <div class="line-tabs" id="lineTabs" role="group" aria-label="体系筛选"></div>
     <div class="search-row">
       <label class="search-box">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m20 20-4.2-4.2"/></svg>
@@ -416,11 +431,11 @@ main{padding:22px 0 54px}
 <main class="shell">
   <h2 class="sr-only">姿势图库列表</h2>
   <div class="result-head">
-    <div class="result-summary"><strong id="resultCount">正在加载图库…</strong><span id="visibleCount"></span></div>
+    <div class="result-summary"><strong id="resultCount" role="status" aria-live="polite" aria-atomic="true">正在加载图库…</strong><span id="visibleCount"></span></div>
     <div class="result-hint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8 3H3v5m13-5h5v5M8 21H3v-5m13 5h5v-5"/><circle cx="12" cy="12" r="3"/></svg>悬停缩略图切换角度 · 点击查看原图</div>
   </div>
   <div class="active-filters" id="activeFilters" aria-label="当前筛选条件"></div>
-  <div class="grid" id="grid" aria-live="polite">
+  <div class="grid" id="grid" aria-busy="true">
     <div class="pose-card skeleton"><div class="card-image"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
     <div class="pose-card skeleton"><div class="card-image"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
     <div class="pose-card skeleton"><div class="card-image"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -447,7 +462,7 @@ main{padding:22px 0 54px}
     <button class="viewer-close" id="viewerClose" type="button" aria-label="关闭大图"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     <div class="viewer-stage" id="viewerStage">
       <img class="viewer-image" id="viewerImage" alt="" draggable="false">
-      <span class="image-status" id="imageStatus" hidden>正在加载原图…</span>
+      <span class="image-status" id="imageStatus" role="status" aria-live="polite" hidden>正在加载原图…</span>
       <button class="viewer-nav prev" id="anglePrev" type="button" aria-label="上一个角度"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m15 5-7 7 7 7"/></svg></button>
       <button class="viewer-nav next" id="angleNext" type="button" aria-label="下一个角度"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></button>
     </div>
@@ -471,7 +486,7 @@ main{padding:22px 0 54px}
   </section>
 </div>
 
-<dialog class="info-dialog" id="infoDialog">
+<dialog class="info-dialog" id="infoDialog" aria-labelledby="infoTitle">
   <div class="info-head"><h2 id="infoTitle">使用指南</h2><button class="info-close" id="infoClose" type="button" aria-label="关闭"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
   <div class="info-content" id="infoContent"></div>
 </dialog>
@@ -497,7 +512,7 @@ let LINES = [];
 let currentList = [];
 let renderedCount = 0;
 const groupMap = new Map();
-const viewerState = { index: 0, item: null, token: 0, returnFocus: null };
+const viewerState = { index: 0, item: null, token: 0, returnFocus: null, inertElements: [] };
 
 function groupKey(item) { return `${item.体系}|${item.姿势编号 || item.id}`; }
 
@@ -531,7 +546,7 @@ function prepareData(data) {
 
 function renderTabs() {
   const tabs = [['', '全部', DATA.length, GROUPS.length], ...LINES.map(line => [line, line, DATA.filter(item => item.体系 === line).length, GROUPS.filter(group => group.system === line).length])];
-  $('#lineTabs').innerHTML = tabs.map(([value, label, images, poses]) => `<button class="line-tab" type="button" role="tab" data-line="${esc(value)}" aria-selected="${state.line === value}"><span class="tab-name">${esc(label)}</span><span class="tab-count">${format(images)} 张 · ${format(poses)} 组</span></button>`).join('');
+  $('#lineTabs').innerHTML = tabs.map(([value, label, images, poses]) => `<button class="line-tab" type="button" data-line="${esc(value)}" aria-pressed="${state.line === value}"><span class="tab-name">${esc(label)}</span><span class="tab-count">${format(images)} 张 · ${format(poses)} 组</span></button>`).join('');
 }
 
 function renderCategoryOptions() {
@@ -580,7 +595,7 @@ function singleCard(entry, index) {
 }
 
 function syncControls() {
-  document.querySelectorAll('.line-tab').forEach(button => button.setAttribute('aria-selected', button.dataset.line === state.line));
+  document.querySelectorAll('.line-tab').forEach(button => button.setAttribute('aria-pressed', button.dataset.line === state.line));
   document.querySelectorAll('#angleFilter button').forEach(button => button.setAttribute('aria-pressed', button.dataset.angle === state.angle));
   document.querySelectorAll('#viewFilter button').forEach(button => button.setAttribute('aria-pressed', button.dataset.view === state.view));
   $('#searchClear').hidden = !state.query;
@@ -625,6 +640,7 @@ function render(append = false) {
   more.textContent = `加载更多（剩余 ${format(total - renderedCount)} ${state.view === 'pose' ? '组' : '张'}）`;
   syncControls();
   renderActiveFilters();
+  grid.setAttribute('aria-busy', 'false');
 }
 
 function resetView() {
@@ -759,6 +775,8 @@ function openViewer(index, item) {
   viewerState.index = index;
   viewerState.item = item;
   viewerState.returnFocus = document.activeElement;
+  viewerState.inertElements = [...document.querySelectorAll('.site-header,.controls,main,.site-footer,#infoDialog')].filter(element => !element.inert);
+  viewerState.inertElements.forEach(element => { element.inert = true; });
   $('#viewer').hidden = false;
   document.body.classList.add('viewer-open');
   showViewer();
@@ -770,10 +788,13 @@ function closeViewer() {
   viewerState.token++;
   $('#viewer').hidden = true;
   document.body.classList.remove('viewer-open');
+  viewerState.inertElements.forEach(element => { element.inert = false; });
+  viewerState.inertElements = [];
   if (viewerState.returnFocus && document.contains(viewerState.returnFocus)) viewerState.returnFocus.focus({ preventScroll: true });
 }
 
 function showViewer() {
+  const restoreAngleFocus = $('#viewerAngles').contains(document.activeElement);
   const entry = currentList[viewerState.index];
   if (!entry) return;
   const item = viewerState.item || entry.item;
@@ -817,6 +838,7 @@ function showViewer() {
   download.href = item.原图;
   download.setAttribute('download', `${item.id}.png`);
   $('#openImage').href = item.原图;
+  if (restoreAngleFocus) [...$('#viewerAngles').querySelectorAll('button')].find(button => button.dataset.angle === item.角度)?.focus({ preventScroll: true });
 }
 
 function stepAngle(direction) {
@@ -872,6 +894,13 @@ $('#viewerStage').addEventListener('touchend', event => {
 
 document.addEventListener('keydown', event => {
   if (!$('#viewer').hidden) {
+    if (event.key === 'Tab') {
+      const controls = [...$('#viewer').querySelectorAll('button:not([disabled]),a[href]')].filter(element => element.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      return;
+    }
     if (event.key === 'Escape') closeViewer();
     else if (event.key === 'ArrowRight') stepAngle(1);
     else if (event.key === 'ArrowLeft') stepAngle(-1);
@@ -897,6 +926,7 @@ const INFO = {
 };
 
 document.querySelectorAll('[data-info]').forEach(button => {
+  button.setAttribute('aria-label', INFO[button.dataset.info].title);
   button.addEventListener('click', () => {
     const info = INFO[button.dataset.info];
     $('#infoTitle').textContent = info.title;
@@ -913,6 +943,7 @@ fetch('data/pose-zh.json')
   .catch(error => {
     console.error(error);
     $('#resultCount').textContent = '图库加载失败';
+    grid.setAttribute('aria-busy', 'false');
     grid.innerHTML = '<div class="empty"><h3>无法读取姿势数据</h3><p>请确认通过 HTTP 服务访问页面，并检查 data/pose-zh.json 是否存在。</p><button type="button" onclick="location.reload()">重新加载</button></div>';
   });
 })();
